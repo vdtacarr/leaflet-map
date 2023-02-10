@@ -5,6 +5,8 @@ import 'leaflet/dist/leaflet.css'
 import DisplayPosition from './components/DisplayPosition'
 import icon from './components/MarkerIcon' 
 import MyComponent from './components/MyComponent';
+import {dataPoints} from './data/Data'
+import {HeatmapLayer} from "react-leaflet-heatmap-layer-v3";
 
 const center = [51.505, -0.09]
 const zoom = 13
@@ -16,11 +18,18 @@ function App() {
 
       {
         <MapContainer ref={setMap} center={center} zoom={zoom}>
+           <HeatmapLayer
+            fitBoundsOnLoad
+            fitBoundsOnUpdate
+            points={dataPoints}
+            longitudeExtractor={m => m.coordinates[0]}
+            latitudeExtractor={m => m.coordinates[1]}
+            intensityExtractor={m => parseFloat(m[2])} />
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <MyComponent />
-          <Marker position={[38.9072, -77.0369]} icon={icon}>
+          <Marker position={[38.9072, -77.0369]} icon={icon} >
             <Popup>
             </Popup>
           </Marker>
